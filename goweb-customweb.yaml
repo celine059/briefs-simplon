@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: goweb-customweb
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: customweb
+  template:
+    metadata:
+      labels:
+        app: customweb
+    spec:
+      containers:
+      - name: mon-conteneur
+        image: celine059/customweb:latest
+        ports:
+        - containerPort: 80
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: goweb-customweb
+spec:
+  selector:
+    app: customweb
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
